@@ -858,6 +858,13 @@ footer {
 footer .disclaimer {
   max-width: 800px; line-height: 1.5; font-size: 0.7rem;
 }
+.deploy-commit {
+  margin-top: 0.65rem;
+  color: rgba(250,249,245,0.72);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
 
 .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s ease, transform 1s ease; }
 .reveal.in { opacity: 1; transform: translateY(0); }
@@ -1757,6 +1764,7 @@ footer .disclaimer {
   <div>
     <div>HAVEN · Senningen Executive Residences · Confidential</div>
     <div>© 2026 · 51A Rue du Château · L-6961 Senningen</div>
+    <div id="deployCommit" class="deploy-commit">Latest GitHub deployment commit: checking...</div>
   </div>
   <div class="disclaimer">
     All financial figures are indicative and subject to formal valuation, credit committee approval, and tax advisor confirmation. DSCR and coverage ratios shown are model projections based on contracted master-lease terms and current Luxembourg rates (April 2026). Not a prospectus or offer of securities.
@@ -1828,6 +1836,26 @@ document.querySelectorAll('.res-tab').forEach(tab => {
     });
   });
 });
+
+(async function showLatestCommit() {
+  const commitEl = document.getElementById('deployCommit');
+  if (!commitEl) return;
+  try {
+    const res = await fetch('https://api.github.com/repos/yannisxyd/haven/commits/main', {
+      headers: { 'Accept': 'application/vnd.github+json' }
+    });
+    if (!res.ok) throw new Error('GitHub API request failed');
+    const data = await res.json();
+    const shortSha = (data.sha || '').slice(0, 7).toUpperCase();
+    const msg = (data.commit?.message || '').split('\n')[0];
+    const date = data.commit?.committer?.date
+      ? new Date(data.commit.committer.date).toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' })
+      : '';
+    commitEl.textContent = `Latest GitHub deployment commit: ${shortSha} · ${date} · ${msg}`;
+  } catch (err) {
+    commitEl.textContent = 'Latest GitHub deployment commit: unavailable';
+  }
+})();
 </script>
 </body>
 </html>
