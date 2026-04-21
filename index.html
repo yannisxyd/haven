@@ -291,24 +291,40 @@ section.dark .lead, section.deep .lead { color: rgba(250,249,245,0.75); }
 
 /* ===== Real maps composition ===== */
 .map-stack {
-  display: grid; grid-template-rows: auto auto; gap: 1rem;
+  display: grid; grid-template-rows: auto auto; gap: 1.25rem;
 }
 .map-panel {
   position: relative;
-  background: var(--cream); border: 1px solid var(--hairline);
+  background: #f6f3ec;
+  border: 1px solid var(--hairline);
+  border-radius: 14px;
   overflow: hidden;
+  box-shadow: 0 12px 30px rgba(10, 10, 12, 0.08);
+  transition: transform 360ms ease, box-shadow 360ms ease;
+}
+.map-panel:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 45px rgba(10, 10, 12, 0.16);
 }
 .map-panel img {
-  width: 100%; display: block;
-  filter: grayscale(1) contrast(1.05) brightness(1.02);
-  mix-blend-mode: multiply;
+  width: 100%;
+  height: clamp(220px, 28vw, 330px);
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(1) contrast(1.06) brightness(1.02);
+}
+.map-panel:nth-child(2) img {
+  object-position: 52% 52%;
 }
 .map-label {
   position: absolute; top: 1rem; left: 1rem;
   padding: 0.4rem 0.75rem;
-  background: rgba(11,12,16,0.82); color: var(--paper);
+  background: rgba(11,12,16,0.78); color: var(--paper);
   font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
-  font-weight: 600; backdrop-filter: blur(8px);
+  font-weight: 600; backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 999px;
 }
 .map-pin {
   position: absolute;
@@ -331,10 +347,10 @@ section.dark .lead, section.deep .lead { color: rgba(250,249,245,0.75); }
   100% { transform: scale(2.2); opacity: 0; }
 }
 .map-caption {
-  padding: 0.75rem 1rem;
+  padding: 0.85rem 1rem 0.9rem;
   font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
   color: var(--muted); border-top: 1px solid var(--hairline);
-  background: #fff;
+  background: linear-gradient(180deg, #faf8f2 0%, #f4f0e8 100%);
 }
 
 /* ===== Concept split ===== */
@@ -1011,14 +1027,14 @@ footer .disclaimer {
     <div class="map-stack">
       <div class="map-panel">
         <div class="map-label">Regional setting</div>
-        <img src="images/map_regional.jpg" alt="Regional map of Senningen with road network">
+        <img src="images/map_regional.png" alt="Regional map of Senningen with road network">
         <!-- Pin positioned approximately on Senningerberg -->
         <div class="map-pin" style="top: 17%; left: 80%;"></div>
         <div class="map-caption">Senningen · Commune de Niederanven · Grand-Duchy of Luxembourg</div>
       </div>
       <div class="map-panel">
         <div class="map-label">Cadastral plot · 56/4735 · 56/4736</div>
-        <img src="images/map_cadastral.jpg" alt="Cadastral plan showing the plot at 51A Rue du Château">
+        <img src="images/map_cadastral.png" alt="Cadastral plan showing the plot at 51A Rue du Château">
         <div class="map-caption">51A Rue du Château · Privately owned · Existing property to be demolished</div>
       </div>
     </div>
